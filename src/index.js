@@ -1,26 +1,25 @@
-const express = require ('express');
-const app = express();
-const path = require ('path');
-const morgan = require ('morgan');
-
-
+import express from 'express'
+import morgan from 'morgan'
+import routes from './routes/index.js'
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const app = express()
 
 //settings
-app.set('port',process.env.PORT || 3000);
-app.set('view engine','ejs');
-app.set('views',path.join(__dirname,'views'))
+const port = process.env.PORT || 3000
+app.set('port', process.env.PORT || 3000)
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'))
 //middelwares
-app.use(morgan('dev'));
+app.use(morgan('dev'))
 //routes
-app.use(require ('./routes/index'));
+app.use(routes)
 
 //static files
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname, 'public')))
 
-
-
-
-app.listen(app.get('port'),()=>{
-console.log('server on port '+app.get('port'));
-});
-
+app.listen(port, () => {
+  console.log(`server on port ${port}`)
+})
